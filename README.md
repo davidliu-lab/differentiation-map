@@ -309,5 +309,9 @@ cluster associations and validation results.
 
 ## Licence
 
-_TODO_. See [LICENSE](LICENSE). Whatever the licence of the code, the released model is derived from UNI-2
-and CONCH outputs and **must not be used commercially**.
+This repository — code, documentation, figures and the pretrained model in `models/` — is licensed under
+[Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+You may use, share and adapt it for **non-commercial** purposes, with attribution. See [LICENSE](LICENSE).
+
+UNI-2 and CONCH are not part of this repository: `rdmap` downloads them from Hugging Face, and they are
+licensed separately under CC BY-NC-ND 4.0 with their own terms of use, which you accept when requesting access.

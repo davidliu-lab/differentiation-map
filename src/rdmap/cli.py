@@ -465,8 +465,9 @@ Mann-Whitney U test of per-slide cluster presence between high and low training 
 
 ## Licence
 
-This model is derived from UNI-2 and CONCH outputs, whose terms (CC-BY-NC-ND 4.0) prohibit commercial use of
-derivatives. It must not be used commercially.
+Released under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0), like the rest of the
+repository. The model is derived from UNI-2 and CONCH outputs, whose own terms (CC BY-NC-ND 4.0) also prohibit
+commercial use of derivatives.
 """
 
 

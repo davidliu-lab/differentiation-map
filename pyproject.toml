@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +7,8 @@ name = "rdmap"
 version = "0.1.0"
 description = "Rambow differentiation maps: unsupervised tile clustering of H&E whole-slide images of in-transit melanoma metastases."
 readme = "README.md"
+license = "CC-BY-NC-4.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
     "numpy>=1.26,<3",
