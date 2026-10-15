@@ -1,0 +1,56 @@
+# rdmap method parameters. This file is always loaded first; files passed with `-c` are merged on top.
+# Values may reference environment variables as ${VAR} or ${VAR:-default}.
+
+[paths]
+data_dir   = "${DATA_DIR:-data}"                 # tiles and features
+output_dir = "${OUTPUT_DIR:-outputs}"            # predictions, tables, figures
+models_dir = "${MODELS_DIR:-~/.cache/rdmap}"     # backbone weights (downloaded from Hugging Face)
+
+[backbones]
+features     = "uni2"     # backbone used for clustering
+tumor_filter = "conch"    # backbone used by the zero-shot tumor filter
+
+[tiling]                  # defaults; per-cohort overrides go in [cohorts.<name>.tiling]
+tile_mm     = 0.125       # physical tile size; converted to pixels from each slide's mpp
+output_px   = 224         # stored tile size
+background_threshold = 0.5   # a tile is background if > 50% of its pixels are background/artifact
+# HSV ranges, flattened (lo, hi) pairs, one pair per rule.
+background_hue = [0, 260, 0, 255, 25, 180]
+background_sat = [0, 15, 0, 5, 0, 55]
+background_val = [215, 255, 245, 255, 229, 255]
+artifact_hue   = [25, 180, 0, 255]
+artifact_sat   = [0, 255, 0, 225]
+artifact_val   = [0, 220, 0, 70]
+
+[embedding]
+batch_size = 20           # halved automatically on CUDA out-of-memory errors
+device     = "auto"       # auto | cuda | cpu
+
+[sampling]                # per-slide tile sampling used by fit and by predict's `sampled` flag
+bagsize = 1000            # max foreground tiles per slide; 0 = all
+seed    = 0
+
+[label]                   # fit only; predict reads the label definition from the model
+name    = "rambow_differentiation"
+display = "Rambow differentiation"
+cutoff  = 0.5             # a continuous label is "Yes" (high) if >= cutoff
+
+[model]                   # fit only
+n_components = 4          # PLS components
+n_clusters   = 8          # k-means clusters
+seed         = 1
+l2_pre       = true
+l2_post      = true
+
+[rd_association]          # fit only
+alpha = 0.05              # Mann-Whitney U significance level for high/low cluster association
+
+[slide_model]             # fit only; the threshold is stored in the model
+C         = 1.0           # inverse L2 regularisation strength of the logistic regression
+threshold = 0.5
+
+[figures]
+dpi          = 300
+summary      = { mosaic = 6, ncols = 4, seed = 1 }
+tile_samples = { max_p_value = 0.15, seeds = [0, 1, 2], n_tiles = 25, ncols = 5 }
+clustermaps  = { max_p_value = 0.05 }

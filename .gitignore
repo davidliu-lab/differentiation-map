@@ -1,0 +1,43 @@
+# Local workspace, data and outputs (never committed).
+var/
+data/
+outputs/
+logs/
+.venv/
+.env
+cohorts.toml
+
+# Data and derived artifacts must never be committed.
+*.h5
+*.hdf5
+*.png
+*.jpg
+*.jpeg
+*.svs
+*.tif
+*.tiff
+*.ndpi
+*.mrxs
+*.npy
+*.npz
+*.joblib
+*.csv
+*.geojson
+
+# Exceptions: the released model bundle and the README figures.
+!models/**
+!assets/**
+
+# Python / tooling
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.vscode/
+.idea/
+.DS_Store

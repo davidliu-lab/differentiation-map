@@ -1,0 +1,21 @@
+# Example cohort definitions. Copy to `cohorts.toml` (git-ignored) and edit.
+# Use with: rdmap <command> -c cohorts.toml --cohort <name>
+
+[cohorts.my-training]
+wsi_dir      = "/path/to/training/slides"
+wsi_glob     = "*.svs"
+metadata     = "/path/to/training/slides/slides.csv"   # required for `fit`
+label_column = "rambow_differentiation_score"          # continuous score (binarised at label.cutoff) or Yes/No
+# slide_id_column = "slide_id"
+# filename_column = "filename"     # optional column with WSI file names; default: match by slide ID
+# root = "${DATA_DIR:-data}/my-training"   # where tiles and features go; default <data_dir>/<cohort>
+# mpp  = 0.5                       # last-resort microns-per-pixel if neither the CSV nor the WSI provide it
+
+[cohorts.my-inference]
+wsi_dir  = "/path/to/inference/slides"
+wsi_glob = "*.ome.tif"
+# No metadata: slides are discovered from wsi_glob and treated as unlabelled.
+
+# Optional per-cohort overrides of [tiling], e.g. for a different scanner:
+# [cohorts.my-inference.tiling]
+# background_val = [200, 255, 240, 255, 220, 255]

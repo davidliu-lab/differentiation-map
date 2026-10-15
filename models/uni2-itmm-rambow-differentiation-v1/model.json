@@ -1,0 +1,184 @@
+{
+  "name": "uni2-itmm-rambow-differentiation-v1",
+  "created": "2026-10-07T23:01:06-04:00",
+  "package_version": "0.1.0",
+  "backbone": {
+    "name": "uni2",
+    "hf_repo": "MahmoodLab/UNI2-h",
+    "hf_revision": "d517a8dd47902dd7c308b3c36f63bce47e7b9a43",
+    "dim": 1536
+  },
+  "tumor_filter": {
+    "backbone": "conch",
+    "hf_repo": "MahmoodLab/CONCH",
+    "hf_revision": "f9ca9f877171a28ade80228fb195ac5d79003357",
+    "prompts_version": "v1"
+  },
+  "input": {
+    "tile_mm": 0.125,
+    "output_px": 224
+  },
+  "preprocessing": {
+    "l2_pre": true,
+    "l2_post": true,
+    "n_components": 4
+  },
+  "clusters": {
+    "n_clusters": 8,
+    "descriptors": {
+      "size": [
+        1757.0,
+        1371.0,
+        1513.0,
+        2033.0,
+        2676.0,
+        2049.0,
+        1724.0,
+        1641.0
+      ],
+      "size_index": [
+        0.9520455161202926,
+        0.7428881062042807,
+        0.8198320238417773,
+        1.1015984827959902,
+        1.4500135464643729,
+        1.1102682199945815,
+        0.9341641831481983,
+        0.8891899214305067
+      ],
+      "span": [
+        0.7575757575757576,
+        0.9393939393939394,
+        0.7575757575757576,
+        0.8787878787878788,
+        0.8181818181818182,
+        0.6666666666666666,
+        0.7575757575757576,
+        0.5757575757575758
+      ],
+      "high_tile_share": [
+        0.29595902105862265,
+        0.7709700948212983,
+        0.5988103106411103,
+        0.7235612395474668,
+        0.4734678624813154,
+        0.9502196193265008,
+        0.9025522041763341,
+        0.8927483241925656
+      ],
+      "median_label": [
+        0.303860467735145,
+        0.633726270966885,
+        0.524513032498572,
+        0.56735939552547,
+        0.462401088227457,
+        0.594998370279544,
+        0.595021704140334,
+        0.586549653555469
+      ],
+      "mean_presence_low": [
+        0.2615668988160092,
+        0.0882556237007005,
+        0.10022217582630409,
+        0.21379740666866787,
+        0.21730661460558132,
+        0.028475761886220693,
+        0.043739655914837076,
+        0.04663586258167929
+      ],
+      "mean_presence_high": [
+        0.04535025132728788,
+        0.10568380348965611,
+        0.09134510269182443,
+        0.1455224129011173,
+        0.1513377369985113,
+        0.17737837572951165,
+        0.14647303492578254,
+        0.13690928193630877
+      ],
+      "presence_ratio": [
+        0.1733791681308576,
+        1.1974738725779044,
+        0.9114260585415288,
+        0.6806556504524884,
+        0.6964248984007887,
+        6.229100258607807,
+        3.3487468491058,
+        2.9357081515651657
+      ],
+      "mwu_statistic": [
+        189.0,
+        98.0,
+        111.5,
+        118.0,
+        152.5,
+        73.0,
+        82.5,
+        78.0
+      ],
+      "p_value": [
+        0.01849304766057842,
+        0.30336332193271476,
+        0.5977399430797476,
+        0.7787753914894586,
+        0.3291221161869239,
+        0.04529468224687863,
+        0.10506332797368147,
+        0.06440858711181542
+      ],
+      "rd_association": [
+        "low",
+        "none",
+        "none",
+        "none",
+        "none",
+        "high",
+        "none",
+        "none"
+      ]
+    }
+  },
+  "rd_association": {
+    "test": "mannwhitneyu",
+    "alpha": 0.05
+  },
+  "slide_model": {
+    "type": "logistic_poly2",
+    "inputs": [
+      "presence_high",
+      "presence_low"
+    ],
+    "terms": [
+      "presence_high",
+      "presence_low",
+      "presence_high^2",
+      "presence_high presence_low",
+      "presence_low^2"
+    ],
+    "C": 1.0,
+    "threshold": 0.5
+  },
+  "validation": {
+    "essen_itmm_in_sample_auc": 0.8353174603174603,
+    "essen_itmm_loso_auc": 0.6865079365079365,
+    "lsp_itmm_external_auc": 0.5380434782608696,
+    "note": "Essen: 33 training slides (leave-one-slide-out refits the slide model only, clusters fixed). LSP: 39 external slides with binary labels."
+  },
+  "training_summary": {
+    "n_slides": 33,
+    "n_slides_high": 21,
+    "n_slides_low": 12,
+    "n_sampled_tiles": 31843,
+    "n_tumor_tiles": 14764,
+    "bagsize": 1000,
+    "label_kind": "continuous"
+  },
+  "label": {
+    "name": "rambow_differentiation",
+    "display": "Rambow differentiation",
+    "cutoff": 0.5,
+    "positive": "Yes"
+  },
+  "format_version": 1,
+  "arrays_sha256": "bd9694ee7f0ec28d152240aab9992179cc6681df26e731d61ea762ca7df856ad"
+}

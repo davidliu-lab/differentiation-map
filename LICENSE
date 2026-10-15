@@ -1,0 +1,6 @@
+TODO: licence not yet chosen.
+
+Constraint: the UNI-2 and CONCH foundation models used by this project are released under
+CC-BY-NC-ND 4.0 and prohibit commercial use of derivatives, including models trained on their
+outputs. The pretrained bundles under `models/` are such derivatives and must not be used
+commercially, whatever licence is chosen for the code.
