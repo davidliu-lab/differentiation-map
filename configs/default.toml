@@ -1,10 +1,11 @@
 # rdmap method parameters. This file is always loaded first; files passed with `-c` are merged on top.
 # Values may reference environment variables as ${VAR} or ${VAR:-default}.
+# Relative paths below are resolved against the repository root, not the current directory.
 
 [paths]
-data_dir   = "${DATA_DIR:-data}"                 # tiles and features
-output_dir = "${OUTPUT_DIR:-outputs}"            # predictions, tables, figures
-models_dir = "${MODELS_DIR:-~/.cache/rdmap}"     # backbone weights (downloaded from Hugging Face)
+data_dir   = "${DATA_DIR:-var/data}"               # tiles and features
+output_dir = "${OUTPUT_DIR:-var/outputs}"          # predictions, tables, figures
+models_dir = "${MODELS_DIR:-var/model-cache}"      # backbone weights (downloaded from Hugging Face)
 
 [backbones]
 features     = "uni2"     # backbone used for clustering

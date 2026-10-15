@@ -8,7 +8,7 @@ metadata     = "/path/to/training/slides/slides.csv"   # required for `fit`
 label_column = "rambow_differentiation_score"          # continuous score (binarised at label.cutoff) or Yes/No
 # slide_id_column = "slide_id"
 # filename_column = "filename"     # optional column with WSI file names; default: match by slide ID
-# root = "${DATA_DIR:-data}/my-training"   # where tiles and features go; default <data_dir>/<cohort>
+# root = "${DATA_DIR:-var/data}/my-training"   # where tiles and features go; default <data_dir>/<cohort>
 # mpp  = 0.5                       # last-resort microns-per-pixel if neither the CSV nor the WSI provide it
 
 [cohorts.my-inference]

@@ -61,6 +61,12 @@ def to_path(value: str | os.PathLike) -> Path:
     return Path(os.path.expanduser(str(value)))
 
 
+def to_repo_path(value: str | os.PathLike) -> Path:
+    """Like `to_path`, but relative paths are anchored to the repository root rather than the current directory."""
+    path = to_path(value)
+    return path if path.is_absolute() else REPO_ROOT / path
+
+
 @dataclass
 class Cohort:
     name: str
@@ -114,15 +120,15 @@ class Config:
 
     @property
     def data_dir(self) -> Path:
-        return to_path(self.get("paths", "data_dir", "data"))
+        return to_repo_path(self.get("paths", "data_dir", "var/data"))
 
     @property
     def output_dir(self) -> Path:
-        return to_path(self.get("paths", "output_dir", "outputs"))
+        return to_repo_path(self.get("paths", "output_dir", "var/outputs"))
 
     @property
     def models_dir(self) -> Path:
-        return to_path(self.get("paths", "models_dir", "~/.cache/rdmap"))
+        return to_repo_path(self.get("paths", "models_dir", "var/model-cache"))
 
     @property
     def text_features_dir(self) -> Path:
@@ -168,7 +174,7 @@ class Config:
             globs = [g.strip() for g in globs.split(",") if g.strip()]
         return Cohort(
             name=name,
-            root=to_path(entry.get("root", self.data_dir / name)),
+            root=to_repo_path(entry.get("root", self.data_dir / name)),
             tiling=tiling,
             wsi_dir=to_path(entry["wsi_dir"]) if entry.get("wsi_dir") else None,
             wsi_glob=list(globs),

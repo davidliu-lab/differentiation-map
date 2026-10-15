@@ -97,7 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = add("evaluate", "evaluate the model on a labelled cohort")
     _model_args(p)
     p = add("release-model", "copy a trained model into models/ and write its MODEL_CARD.md")
-    p.add_argument("--src", required=True, metavar="DIR", help="model folder, e.g. outputs/<run>/model")
+    p.add_argument("--src", required=True, metavar="DIR", help="model folder, e.g. var/outputs/<run>/model")
     p.add_argument("--name", required=True, help="released model name")
     p.add_argument("--validation", metavar="JSON", help="validation metrics (JSON file) to record in the model")
     return parser

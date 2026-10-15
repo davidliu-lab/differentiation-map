@@ -65,7 +65,7 @@ features:
 	$(RDMAP) embed $(COHORT_ARGS)
 
 .PHONY: fit
-## Train a new model on the labelled COHORT=name and write it to OUT=outputs/<run>.
+## Train a new model on the labelled COHORT=name and write it to OUT=var/outputs/<run>.
 fit:
 	$(RDMAP) fit $(COHORT_ARGS) $(if $(OUT),--out $(OUT))
 
@@ -90,12 +90,12 @@ evaluate:
 	$(RDMAP) evaluate $(COHORT_ARGS) $(MODEL_ARGS)
 
 .PHONY: release-model
-## Copy a trained model from OUT=outputs/<run> to models/NAME (optionally with VALIDATION=metrics.json) and generate its MODEL_CARD.md.
+## Copy a trained model from OUT=var/outputs/<run> to models/NAME (optionally with VALIDATION=metrics.json) and generate its MODEL_CARD.md.
 release-model:
-	test -n "$(OUT)" && test -n "$(NAME)" || (echo "Usage: make release-model OUT=outputs/<run> NAME=<model-name>"; exit 1)
+	test -n "$(OUT)" && test -n "$(NAME)" || (echo "Usage: make release-model OUT=var/outputs/<run> NAME=<model-name>"; exit 1)
 	$(RDMAP) release-model --src $(OUT)/model --name $(NAME) $(if $(VALIDATION),--validation $(VALIDATION))
 
 .PHONY: clean
 ## Remove all outputs (predictions, tables and figures). Tiles and features are kept.
 clean:
-	rm -rf outputs
+	set -a; [ ! -f .env ] || . ./.env; set +a; rm -rf "$${OUTPUT_DIR:-var/outputs}"

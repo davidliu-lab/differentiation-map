@@ -34,8 +34,8 @@ Contents: [Requirements](#requirements) · [Installation](#installation) · [Qui
      Alternatively, log in once with `huggingface-cli login`.
 
   Both models are released for **non-commercial academic research only** (CC-BY-NC-ND 4.0). Please read
-  their terms. The weights are downloaded on first use to `MODELS_DIR` (default `~/.cache/rdmap`), pinned
-  to the exact revisions our model was built with.
+  their terms. The weights are downloaded on first use to `MODELS_DIR` (default `var/model-cache` inside
+  the repository), pinned to the exact revisions our model was built with.
 
 ## Installation
 
@@ -71,11 +71,14 @@ this), and each slide's ID is its file name without the extension.
 
 | Location | Content |
 |---|---|
-| `data/<cohort>/` | tiles and features (reused by later runs) |
-| `outputs/uni2-itmm-rambow-differentiation-v1/<cohort>/` | results (see [Outputs](#outputs)) |
+| `var/data/<cohort>/` | tiles and features (reused by later runs) |
+| `var/outputs/uni2-itmm-rambow-differentiation-v1/<cohort>/` | results (see [Outputs](#outputs)) |
 
 `<cohort>` is the folder name of `--wsi-dir`; change it with `--name`. If you have a
 [metadata CSV](#slide-metadata-csv) with labels, add `--metadata slides.csv --label-column my_label`.
+
+All of `var/` is git-ignored, so nothing you generate can be committed by accident. Point `DATA_DIR`,
+`OUTPUT_DIR` and `MODELS_DIR` elsewhere (e.g. to scratch storage) if you prefer.
 
 ## Outputs
 
@@ -84,7 +87,7 @@ this), and each slide's ID is its file name without the extension.
 
 [![Exploring the results: rdmap map, rdmap clusters and rdmap evaluate](assets/figures/rdmap-2-exploring-results.png)](assets/figures/rdmap-2-exploring-results.svg)
 
-All results go to `outputs/<model name>/<cohort>/`.
+All results go to `var/outputs/<model name>/<cohort>/`.
 
 | File | Content |
 |---|---|
@@ -159,20 +162,20 @@ You need slides with a label: either a continuous Rambow differentiation score (
 cp configs/cohorts.example.toml cohorts.toml   # edit paths, metadata CSV and label column
 rdmap tile  -c cohorts.toml --cohort my-training
 rdmap embed -c cohorts.toml --cohort my-training
-rdmap fit   -c cohorts.toml --cohort my-training --out outputs/my-model
+rdmap fit   -c cohorts.toml --cohort my-training --out var/outputs/my-model
 ```
 
 `fit` writes:
-- the model to `outputs/my-model/model/` (`model.json` + `model.npz`);
-- private per-slide training statistics to `outputs/my-model/training/`.
+- the model to `var/outputs/my-model/model/` (`model.json` + `model.npz`);
+- private per-slide training statistics to `var/outputs/my-model/training/`.
 
 It prints each cluster's p-value and association, and checks that the fast numpy inference reproduces
 scikit-learn exactly. Apply the model to any cohort with `--model`:
 
 ```bash
-rdmap run -c cohorts.toml --cohort my-inference --model outputs/my-model/model
-rdmap map -c cohorts.toml --cohort my-training --model outputs/my-model/model \
-    --training-stats outputs/my-model/training   # adds the training reference boxplots
+rdmap run -c cohorts.toml --cohort my-inference --model var/outputs/my-model/model
+rdmap map -c cohorts.toml --cohort my-training --model var/outputs/my-model/model \
+    --training-stats var/outputs/my-model/training   # adds the training reference boxplots
 ```
 
 The method parameters (number of PLS components and clusters, seeds, sample size, significance level) are
@@ -202,7 +205,7 @@ only need the keys they change. Values can reference environment variables as `$
 
 | Section | Contents |
 |---|---|
-| `[paths]` | `data_dir` (tiles and features), `output_dir`, `models_dir` (backbone weights); defaults come from `DATA_DIR`, `OUTPUT_DIR`, `MODELS_DIR` |
+| `[paths]` | `data_dir` (tiles and features), `output_dir`, `models_dir` (backbone weights); defaults come from `DATA_DIR`, `OUTPUT_DIR`, `MODELS_DIR` and live under the git-ignored `var/` folder. Relative paths are resolved against the repository root, so they don't depend on where you run `rdmap` from |
 | `[tiling]` | `tile_mm` (physical tile size, 0.125 mm), `output_px` (224), background threshold and HSV background/artifact ranges |
 | `[embedding]` | `batch_size` (halved automatically on GPU out-of-memory errors), `device` |
 | `[sampling]` | per-slide tile sample: `bagsize` (1000), `seed` |
